@@ -1,9 +1,9 @@
 {
 	"name": "particle-life-2d",
 	"private": true,
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"type": "module",
-	"description": "🦠 Life is made up of elementary particles.",
+	"description": "Life is made up of elementary particles.",
 	"homepage": "https://particle-life-2d.vercel.app",
 	"keywords": [
 		"particles",
@@ -57,7 +57,8 @@
 		"tailwindcss": "^3.4.14",
 		"typescript": "~5.6.2",
 		"typescript-eslint": "^8.11.0",
-		"vite": "^5.4.10"
+		"vite": "^5.4.10",
+		"vite-plugin-html-config": "2.0.2"
 	},
 	"license": "MIT"
 }

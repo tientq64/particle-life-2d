@@ -7,6 +7,8 @@ subscribeAppStore((state) => {
 	store = state
 })
 
+const hexagon: Path2D = new Path2D('M-3 0-1.5 2.6h3L3 0 1.5-2.6h-3Z')
+
 export function draw(): void {
 	if (store.isPaused && !store.isMouseMove) return
 
@@ -16,11 +18,14 @@ export function draw(): void {
 	ctx.fillStyle = '#1e293b88'
 	ctx.fillRect(0, 0, width, height)
 
+	const radius: number = store.atomRadius
+	const diameter: number = radius * 2
+	const ringRadius: number = radius * 0.7
+
 	for (const group of store.groups) {
-		const radius: number = store.atomRadius
 		ctx.fillStyle = group.color
 		ctx.strokeStyle = group.color
-		ctx.lineWidth = radius * 0.75
+		ctx.lineWidth = radius * 0.8
 
 		for (const atom of group.atoms) {
 			let x: number = atom.x
@@ -41,15 +46,23 @@ export function draw(): void {
 				case 'ring':
 					{
 						ctx.beginPath()
-						ctx.arc(x, y, radius * 0.75, 0, PI_2)
+						ctx.arc(x, y, ringRadius, 0, PI_2)
 						ctx.stroke()
+						ctx.closePath()
+					}
+					break
+				case 'hexagon':
+					{
+						ctx.beginPath()
+						ctx.translate(x, y)
+						ctx.stroke(hexagon)
+						ctx.translate(-x, -y)
 						ctx.closePath()
 					}
 					break
 				case 'square':
 					{
-						const size: number = radius * 2
-						ctx.fillRect(x - radius, y - radius, size, size)
+						ctx.fillRect(x - radius, y - radius, diameter, diameter)
 					}
 					break
 			}

@@ -7,7 +7,7 @@ export function KeyboardShortcuts(): ReactNode {
 	const keyboardShortcutItems = useCreation<DescriptionsItemProps[]>(
 		() => [
 			{
-				label: 'Bật/tắt giao diện tùy chọn',
+				label: 'Bật/tắt giao diện',
 				children: <kbd>E</kbd>
 			},
 			{
@@ -28,8 +28,30 @@ export function KeyboardShortcuts(): ReactNode {
 				children: <kbd>Space</kbd>
 			},
 			{
+				label: 'Thay đổi hình dạng hạt',
+				children: (
+					<>
+						<kbd>1</kbd>
+						<kbd>2</kbd>
+						<kbd>3</kbd>
+						<kbd>4</kbd>
+					</>
+				)
+			},
+			{
 				label: 'Reset cấu hình về mặc định',
 				children: <kbd>`</kbd>
+			},
+			{
+				label: 'Di chuyển xung quanh',
+				children: (
+					<>
+						<kbd>W</kbd>
+						<kbd>A</kbd>
+						<kbd>S</kbd>
+						<kbd>D</kbd>
+					</>
+				)
 			},
 			{
 				label: 'Di chuyển xung quanh',
@@ -40,9 +62,8 @@ export function KeyboardShortcuts(): ReactNode {
 	)
 
 	return (
-		<Typography>
+		<Typography className="p-4">
 			<Descriptions
-				title="Phím tắt"
 				column={1}
 				colon={false}
 				bordered

@@ -1,5 +1,5 @@
-import { AppStore, getAppStore, Group, subscribeAppStore } from '../store/useAppStore'
-import { height, width } from './init'
+import { AppStore, getAppStore, Group, setAppStore, subscribeAppStore } from '../store/useAppStore'
+import { height, moveAtoms, width } from './init'
 
 let store: AppStore = getAppStore()
 
@@ -16,9 +16,10 @@ export function calc(): void {
 			rule(groupA, groupB)
 		}
 	}
+	camera()
 }
 
-export function rule(groupA: Group, groupB: Group): void {
+function rule(groupA: Group, groupB: Group): void {
 	for (const atomA of groupA.atoms) {
 		let fx: number = 0
 		let fy: number = 0
@@ -29,15 +30,17 @@ export function rule(groupA: Group, groupB: Group): void {
 
 				let dx: number = atomA.x - atomB.x
 				let dy: number = atomA.y - atomB.y
+
 				const dxAbs: number = Math.abs(dx)
 				const dyAbs: number = Math.abs(dy)
-				const right: number = width - dxAbs
-				const bottom: number = height - dyAbs
-				if (right < dxAbs) {
-					dx = right * (dx > 0 ? -1 : 1)
+				const dx2: number = width - dxAbs
+				const dy2: number = height - dyAbs
+
+				if (dx2 < dxAbs) {
+					dx = dx2 * (dx > 0 ? -1 : 1)
 				}
-				if (bottom < dyAbs) {
-					dy = bottom * (dy > 0 ? -1 : 1)
+				if (dy2 < dyAbs) {
+					dy = dy2 * (dy > 0 ? -1 : 1)
 				}
 				const d: number = Math.sqrt(dx * dx + dy * dy)
 
@@ -65,6 +68,54 @@ export function rule(groupA: Group, groupB: Group): void {
 			atomA.y += height
 		} else if (atomA.y >= height) {
 			atomA.y -= height
+		}
+	}
+}
+
+function camera(): void {
+	let cameraVelocityX: number = store.cameraVelocityX
+	let cameraVelocityY: number = store.cameraVelocityY
+	if (cameraVelocityX !== 0 || cameraVelocityY !== 0) {
+		moveAtoms(cameraVelocityX ** 3 * -16, cameraVelocityY ** 3 * -16)
+		let velocityChange: boolean = false
+		if (!store.cameraMoveLeft) {
+			if (cameraVelocityX < 0) {
+				cameraVelocityX += 0.075
+				if (cameraVelocityX > 0) {
+					cameraVelocityX = 0
+				}
+				velocityChange = true
+			}
+		}
+		if (!store.cameraMoveRight) {
+			if (cameraVelocityX > 0) {
+				cameraVelocityX -= 0.075
+				if (cameraVelocityX < 0) {
+					cameraVelocityX = 0
+				}
+				velocityChange = true
+			}
+		}
+		if (!store.cameraMoveUp) {
+			if (cameraVelocityY < 0) {
+				cameraVelocityY += 0.075
+				if (cameraVelocityY > 0) {
+					cameraVelocityY = 0
+				}
+				velocityChange = true
+			}
+		}
+		if (!store.cameraMoveDown) {
+			if (cameraVelocityY > 0) {
+				cameraVelocityY -= 0.075
+				if (cameraVelocityY < 0) {
+					cameraVelocityY = 0
+				}
+				velocityChange = true
+			}
+		}
+		if (velocityChange) {
+			setAppStore({ cameraVelocityX, cameraVelocityY })
 		}
 	}
 }

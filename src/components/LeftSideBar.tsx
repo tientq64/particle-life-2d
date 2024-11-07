@@ -12,6 +12,7 @@ export function LeftSideBar(): ReactNode {
 	const gridSnapSize = useAppStore((state) => state.gridSnapSize)
 	const atomShapeName = useAppStore((state) => state.atomShapeName)
 	const atomRadius = useAppStore((state) => state.atomRadius)
+	const canvasFillMode = useAppStore((state) => state.canvasFillMode)
 	const groups = useAppStore((state) => state.groups)
 
 	const [configsForm] = useForm<Configs>()
@@ -31,12 +32,23 @@ export function LeftSideBar(): ReactNode {
 			gridSnapping,
 			gridSnapSize,
 			atomShapeName,
-			atomRadius
+			atomRadius,
+			canvasFillMode
 		})
-	}, [skipRuleWhenSameGroup, gridSnapping, gridSnapSize, atomShapeName, configsForm, atomRadius])
+	}, [
+		skipRuleWhenSameGroup,
+		gridSnapping,
+		gridSnapSize,
+		atomShapeName,
+		atomRadius,
+		configsForm,
+		canvasFillMode
+	])
 
 	return (
 		<div className="w-96 overflow-auto pointer-events-auto">
+			<div className="px-4 pt-4 font-bold text-base">Bảng điều khiển</div>
+
 			<Form
 				form={configsForm}
 				className="p-4"
@@ -101,11 +113,26 @@ export function LeftSideBar(): ReactNode {
 				</FormItem>
 
 				<FormItem name="atomShapeName" label="Hình dạng hạt">
-					<Select value={atomShapeName} options={atomShapes}></Select>
+					<Select options={atomShapes}></Select>
 				</FormItem>
 
 				<FormItem name="atomRadius" label="Bán kính hạt">
 					<Slider min={1} max={10} />
+				</FormItem>
+
+				<FormItem name="canvasFillMode" label="Kiểu khung hình hiển thị">
+					<Select
+						options={[
+							{
+								label: 'Vừa màn hình',
+								value: 'contain'
+							},
+							{
+								label: 'Đầy màn hình',
+								value: 'fill'
+							}
+						]}
+					/>
 				</FormItem>
 			</Form>
 		</div>

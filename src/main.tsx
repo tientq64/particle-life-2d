@@ -1,6 +1,6 @@
 import { App as AntdApp, ConfigProvider, theme, ThemeConfig } from 'antd'
 import { createRoot } from 'react-dom/client'
-import { App } from './App'
+import { App } from './components/App'
 import './style.scss'
 
 const darkTheme: ThemeConfig = {

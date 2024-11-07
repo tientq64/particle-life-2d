@@ -1,11 +1,11 @@
 import { useEventListener, useFullscreen } from 'ahooks'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types'
-import { randomForces, separateXYAtoms } from '../helpers/init'
+import { moveAtoms, randomForces, separateXYAtoms } from '../helpers/init'
+import { AtomShape, atomShapes } from '../models/atomShapes'
 import { defaultConfigs, setAppStore, useAppStore } from '../store/useAppStore'
 
 export function useEvents(): void {
-	const groups = useAppStore((state) => state.groups)
 	const canvas = useAppStore((state) => state.canvas)
 	const isMouseDown = useAppStore((state) => state.isMouseDown)
 
@@ -26,12 +26,7 @@ export function useEvents(): void {
 		(event: PointerEvent) => {
 			if (!isMouseDown) return
 			setAppStore({ isMouseMove: true })
-			for (const group of groups) {
-				for (const atom of group.atoms) {
-					atom.x += event.movementX
-					atom.y += event.movementY
-				}
-			}
+			moveAtoms(event.movementX, event.movementY)
 		},
 		{ target: canvas }
 	)
@@ -46,7 +41,7 @@ export function useEvents(): void {
 	)
 
 	useHotkeys(
-		'e,r,f,space,`',
+		'e,r,f,space,1,2,3,4,`,w,a,s,d',
 		(event: KeyboardEvent, hotkeyEvent: HotkeysEvent) => {
 			if (event.repeat) return
 
@@ -68,11 +63,62 @@ export function useEvents(): void {
 					setAppStore((prev) => ({ isPaused: !prev.isPaused }))
 					break
 
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+					{
+						const index: number = Number(hotkeyEvent.hotkey) - 1
+						const atomShape: AtomShape = atomShapes[index]
+						setAppStore({ atomShapeName: atomShape.value })
+					}
+					break
+
 				case '`':
 					setAppStore((prev) => ({ ...prev, ...defaultConfigs }), true)
+					break
+
+				case 'w':
+					setAppStore({ cameraMoveUp: true, cameraVelocityY: -1 })
+					break
+
+				case 'a':
+					setAppStore({ cameraMoveLeft: true, cameraVelocityX: -1 })
+					break
+
+				case 's':
+					setAppStore({ cameraMoveDown: true, cameraVelocityY: 1 })
+					break
+
+				case 'd':
+					setAppStore({ cameraMoveRight: true, cameraVelocityX: 1 })
 					break
 			}
 		},
 		[]
+	)
+
+	useHotkeys(
+		'w,a,s,d',
+		(_, hotkeyEvent: HotkeysEvent) => {
+			switch (hotkeyEvent.hotkey) {
+				case 'w':
+					setAppStore({ cameraMoveUp: false })
+					break
+
+				case 'a':
+					setAppStore({ cameraMoveLeft: false })
+					break
+
+				case 's':
+					setAppStore({ cameraMoveDown: false })
+					break
+
+				case 'd':
+					setAppStore({ cameraMoveRight: false })
+					break
+			}
+		},
+		{ keyup: true }
 	)
 }

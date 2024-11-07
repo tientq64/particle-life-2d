@@ -125,3 +125,17 @@ export function separateXYAtoms(): void {
 	}
 	setAppStore({ groups })
 }
+
+/**
+ * Di chuyển các hạt.
+ *
+ * Đột biến state để tránh vấn đề hiệu suất, mặc dù chưa thấy vấn đề gì.
+ */
+export function moveAtoms(movementX: number, movementY: number): void {
+	for (const group of store.groups) {
+		for (const atom of group.atoms) {
+			atom.x += movementX
+			atom.y += movementY
+		}
+	}
+}

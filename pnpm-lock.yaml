@@ -78,6 +78,9 @@ importers:
       vite:
         specifier: ^5.4.10
         version: 5.4.10(sass@1.80.6)
+      vite-plugin-html-config:
+        specifier: 2.0.2
+        version: 2.0.2(vite@5.4.10(sass@1.80.6))
 
 packages:
 
@@ -1693,6 +1696,12 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  vite-plugin-html-config@2.0.2:
+    resolution: {integrity: sha512-g09u0XsmgKyMUIp1RZSyNSkJWvIusaXxw3KylyxU3vkCq7/G8hyemLctT+4IvO42fCPlNySmrNC9g0qSoKmvpw==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      vite: '>=5.0.0'
 
   vite@5.4.10:
     resolution: {integrity: sha512-1hvaPshuPUtxeQ0hsVH3Mud0ZanOLwVTneA1EgbAM5LhaZEqyPWGRQ7BtaMvUrTDeEaC8pxtj6a6jku3x4z6SQ==}
@@ -3445,6 +3454,10 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
+
+  vite-plugin-html-config@2.0.2(vite@5.4.10(sass@1.80.6)):
+    dependencies:
+      vite: 5.4.10(sass@1.80.6)
 
   vite@5.4.10(sass@1.80.6):
     dependencies:

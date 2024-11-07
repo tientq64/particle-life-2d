@@ -22,6 +22,7 @@ export interface Configs {
 	gridSnapSize: number
 	atomShapeName: AtomShapeName
 	atomRadius: number
+	canvasFillMode: 'contain' | 'fill'
 }
 
 export interface AppStore extends Configs {
@@ -32,6 +33,12 @@ export interface AppStore extends Configs {
 	isMouseMove: boolean
 	isShowPanel: boolean
 	isPaused: boolean
+	cameraMoveLeft: boolean
+	cameraMoveRight: boolean
+	cameraMoveUp: boolean
+	cameraMoveDown: boolean
+	cameraVelocityX: number
+	cameraVelocityY: number
 }
 
 export const defaultConfigs: Configs = {
@@ -39,7 +46,8 @@ export const defaultConfigs: Configs = {
 	gridSnapping: false,
 	gridSnapSize: 5,
 	atomShapeName: 'ring',
-	atomRadius: 4
+	atomRadius: 4,
+	canvasFillMode: 'contain'
 }
 
 export const useAppStore = create(
@@ -52,7 +60,13 @@ export const useAppStore = create(
 			isMouseDown: false,
 			isMouseMove: false,
 			isShowPanel: true,
-			isPaused: false
+			isPaused: false,
+			cameraMoveLeft: false,
+			cameraMoveRight: false,
+			cameraMoveUp: false,
+			cameraMoveDown: false,
+			cameraVelocityX: 0,
+			cameraVelocityY: 0
 		}),
 		{
 			name: 'tientq64/particle-life-2d',
@@ -62,6 +76,7 @@ export const useAppStore = create(
 				gridSnapSize: state.gridSnapSize,
 				atomShapeName: state.atomShapeName,
 				atomRadius: state.atomRadius,
+				canvasFillMode: state.canvasFillMode,
 				isShowPanel: state.isShowPanel
 			})
 		}
