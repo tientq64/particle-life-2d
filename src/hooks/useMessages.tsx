@@ -10,7 +10,7 @@ export function useMessages(): void {
 		)
 		await message.info(
 			<Typography>
-				Nhấn <kbd>R</kbd> để xáo trộn lại thế giới nếu thấy chán
+				Nếu không có gì thú vị, hãy nhấn <kbd>R</kbd> để xáo trộn lại lực tương tác
 			</Typography>,
 			7
 		)

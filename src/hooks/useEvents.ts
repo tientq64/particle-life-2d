@@ -1,7 +1,14 @@
 import { useEventListener, useFullscreen } from 'ahooks'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types'
-import { height, moveAtoms, randomForces, separateXYAtoms, width } from '../helpers/init'
+import {
+	height,
+	moveAtoms,
+	randomForces,
+	randomPositionAtoms,
+	separatePositionAtoms,
+	width
+} from '../helpers/init'
 import { AtomShape, atomShapes } from '../models/atomShapes'
 import { defaultConfigs, setAppStore, useAppStore } from '../store/useAppStore'
 
@@ -43,7 +50,7 @@ export function useEvents(): void {
 	)
 
 	useHotkeys(
-		'e,r,f,space,1,2,3,4,5,`,w,a,s,d',
+		'e,r,t,f,space,1,2,3,4,5,`,w,a,s,d',
 		(event: KeyboardEvent, hotkeyEvent: HotkeysEvent) => {
 			if (event.repeat) return
 
@@ -54,7 +61,12 @@ export function useEvents(): void {
 
 				case 'r':
 					randomForces()
-					separateXYAtoms()
+					separatePositionAtoms()
+					break
+
+				case 't':
+					randomPositionAtoms()
+					separatePositionAtoms()
 					break
 
 				case 'f':

@@ -1,5 +1,5 @@
 import { store } from '../store/store'
-import { Atom, Group, setAppStore, useAppStore } from '../store/useAppStore'
+import { Atom, Group, setAppStore } from '../store/useAppStore'
 import { random } from '../utils/random'
 import { getDistancesBetweenTwoAtom } from './getDistancesBetweenTwoAtom'
 import { getRandomXYInRadius } from './getRandomXYInRadius'
@@ -39,18 +39,17 @@ export function init(): void {
 			atoms: [],
 			forces: Array(groupsNumber)
 		}
-		const groupX: number = random(0, width - 1)
-		const groupY: number = random(0, height - 1)
 		for (let j = 0; j < atomsNumber; j++) {
-			addAtom(groupX, groupY, group)
+			addAtom(0, 0, group)
 		}
 		groups.push(group)
 	}
 	const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!
-	useAppStore.setState({ groups, ctx })
+	setAppStore({ groups, ctx })
 
 	randomForces()
-	separateXYAtoms()
+	randomPositionAtoms()
+	separatePositionAtoms()
 
 	loop()
 }
@@ -93,7 +92,21 @@ export function randomForces(): void {
 	setAppStore({ groups })
 }
 
-export function separateXYAtoms(): void {
+export function randomPositionAtoms(): void {
+	const groups: Group[] = structuredClone(store.groups)
+	for (const group of groups) {
+		const groupX: number = random(0, width - 1)
+		const groupY: number = random(0, height - 1)
+		for (const atom of group.atoms) {
+			const [x, y] = getRandomXYInRadius(groupX, groupY, store.atomRadius * 4)
+			atom.x = x
+			atom.y = y
+		}
+	}
+	setAppStore({ groups })
+}
+
+export function separatePositionAtoms(): void {
 	const groups: Group[] = structuredClone(store.groups)
 	for (const groupA of groups) {
 		for (const groupB of groups) {

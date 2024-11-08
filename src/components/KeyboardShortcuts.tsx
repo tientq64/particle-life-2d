@@ -11,8 +11,12 @@ export function KeyboardShortcuts(): ReactNode {
 				children: <kbd>E</kbd>
 			},
 			{
-				label: 'Xáo trộn lại thế giới',
+				label: 'Xáo trộn lại lực tương tác',
 				children: <kbd>R</kbd>
+			},
+			{
+				label: 'Xáo trộn lại vị trí các hạt',
+				children: <kbd>T</kbd>
 			},
 			{
 				label: 'Toàn màn hình',
