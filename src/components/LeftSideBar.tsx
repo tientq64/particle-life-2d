@@ -13,6 +13,7 @@ export function LeftSideBar(): ReactNode {
 	const atomShapeName = useAppStore((state) => state.atomShapeName)
 	const atomRadius = useAppStore((state) => state.atomRadius)
 	const canvasFillMode = useAppStore((state) => state.canvasFillMode)
+	const interactiveRange = useAppStore((state) => state.interactiveRange)
 	const groups = useAppStore((state) => state.groups)
 
 	const [configsForm] = useForm<Configs>()
@@ -33,7 +34,8 @@ export function LeftSideBar(): ReactNode {
 			gridSnapSize,
 			atomShapeName,
 			atomRadius,
-			canvasFillMode
+			canvasFillMode,
+			interactiveRange
 		})
 	}, [
 		skipRuleWhenSameGroup,
@@ -42,7 +44,8 @@ export function LeftSideBar(): ReactNode {
 		atomShapeName,
 		atomRadius,
 		configsForm,
-		canvasFillMode
+		canvasFillMode,
+		interactiveRange
 	])
 
 	return (
@@ -97,6 +100,16 @@ export function LeftSideBar(): ReactNode {
 					</table>
 				</FormItem>
 
+				<FormItem name="interactiveRange" label="Phạm vi tương tác giữa 2 hạt">
+					<Slider
+						range
+						min={0}
+						max={480}
+						step={10}
+						marks={{ 0: 0, 160: 160, 480: 480 }}
+					/>
+				</FormItem>
+
 				<FormItem
 					name="skipRuleWhenSameGroup"
 					label="Các hạt cùng nhóm không tương tác với nhau"
@@ -109,7 +122,7 @@ export function LeftSideBar(): ReactNode {
 				</FormItem>
 
 				<FormItem name="gridSnapSize" label="Khoảng cách ô lưới">
-					<Slider min={1} max={10} />
+					<Slider min={1} max={10} marks={{ 1: 1, 5: 5, 6: 6, 10: 10 }} />
 				</FormItem>
 
 				<FormItem name="atomShapeName" label="Hình dạng hạt">
@@ -117,7 +130,7 @@ export function LeftSideBar(): ReactNode {
 				</FormItem>
 
 				<FormItem name="atomRadius" label="Bán kính hạt">
-					<Slider min={1} max={10} />
+					<Slider min={1} max={10} marks={{ 1: 1, 4: 4, 10: 10 }} />
 				</FormItem>
 
 				<FormItem name="canvasFillMode" label="Kiểu khung hình hiển thị">

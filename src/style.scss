@@ -2,17 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-canvas {
-	@apply size-full bg-slate-800;
-	image-rendering: pixelated;
-}
-
-@layer components {
+@layer base {
 	a {
 		@apply text-sky-300;
 
 		&:hover {
 			@apply decoration-dotted decoration-2 underline underline-offset-2 text-sky-300;
 		}
+	}
+}
+
+.ant-slider-horizontal {
+	&.ant-slider-with-marks {
+		margin-bottom: 16px;
 	}
 }

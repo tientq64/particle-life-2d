@@ -1,7 +1,7 @@
 import { useEventListener, useFullscreen } from 'ahooks'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types'
-import { moveAtoms, randomForces, separateXYAtoms } from '../helpers/init'
+import { height, moveAtoms, randomForces, separateXYAtoms, width } from '../helpers/init'
 import { AtomShape, atomShapes } from '../models/atomShapes'
 import { defaultConfigs, setAppStore, useAppStore } from '../store/useAppStore'
 
@@ -26,7 +26,9 @@ export function useEvents(): void {
 		(event: PointerEvent) => {
 			if (!isMouseDown) return
 			setAppStore({ isMouseMove: true })
-			moveAtoms(event.movementX, event.movementY)
+			const ratioX: number = width / canvas!.clientWidth
+			const ratioY: number = height / canvas!.clientHeight
+			moveAtoms(event.movementX * ratioX, event.movementY * ratioY)
 		},
 		{ target: canvas }
 	)
@@ -41,7 +43,7 @@ export function useEvents(): void {
 	)
 
 	useHotkeys(
-		'e,r,f,space,1,2,3,4,`,w,a,s,d',
+		'e,r,f,space,1,2,3,4,5,`,w,a,s,d',
 		(event: KeyboardEvent, hotkeyEvent: HotkeysEvent) => {
 			if (event.repeat) return
 
@@ -67,6 +69,7 @@ export function useEvents(): void {
 				case '2':
 				case '3':
 				case '4':
+				case '5':
 					{
 						const index: number = Number(hotkeyEvent.hotkey) - 1
 						const atomShape: AtomShape = atomShapes[index]

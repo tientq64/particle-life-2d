@@ -26,8 +26,19 @@ export function App() {
 	}, [])
 
 	return (
-		<div className={clsx('h-screen', isMouseMove && 'select-none cursor-grabbing')}>
-			<canvas ref={canvasRef} style={{ objectFit: canvasFillMode }}>
+		<div
+			className={clsx(
+				'flex justify-center items-center h-screen bg-slate-800',
+				isMouseMove && 'select-none cursor-grabbing'
+			)}
+		>
+			<canvas
+				ref={canvasRef}
+				className={canvasFillMode === 'contain' ? 'max-w-full max-h-full' : 'size-full'}
+				style={{
+					imageRendering: 'pixelated'
+				}}
+			>
 				This browser does not support the canvas element.
 			</canvas>
 

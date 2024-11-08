@@ -1,4 +1,4 @@
-export type AtomShapeName = 'circle' | 'ring' | 'hexagon' | 'square'
+export type AtomShapeName = 'circle' | 'ring' | 'hexagon' | 'square' | 'diamond'
 export type AtomShape = {
 	value: AtomShapeName
 	label: string
@@ -20,5 +20,9 @@ export const atomShapes: AtomShape[] = [
 	{
 		value: 'square',
 		label: 'Vuông'
+	},
+	{
+		value: 'diamond',
+		label: 'Thoi'
 	}
 ]

@@ -23,6 +23,7 @@ export interface Configs {
 	atomShapeName: AtomShapeName
 	atomRadius: number
 	canvasFillMode: 'contain' | 'fill'
+	interactiveRange: [number, number]
 }
 
 export interface AppStore extends Configs {
@@ -47,7 +48,8 @@ export const defaultConfigs: Configs = {
 	gridSnapSize: 5,
 	atomShapeName: 'ring',
 	atomRadius: 4,
-	canvasFillMode: 'contain'
+	canvasFillMode: 'contain',
+	interactiveRange: [0, 160]
 }
 
 export const useAppStore = create(
@@ -77,6 +79,7 @@ export const useAppStore = create(
 				atomShapeName: state.atomShapeName,
 				atomRadius: state.atomRadius,
 				canvasFillMode: state.canvasFillMode,
+				interactiveRange: state.interactiveRange,
 				isShowPanel: state.isShowPanel
 			})
 		}

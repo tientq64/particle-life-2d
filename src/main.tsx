@@ -9,7 +9,8 @@ const darkTheme: ThemeConfig = {
 		fontFamily: 'Arial, sans-serif',
 		marginLG: 8,
 		motion: false
-	}
+	},
+	hashed: false
 }
 
 createRoot(document.getElementById('root')!).render(

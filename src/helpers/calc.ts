@@ -1,11 +1,6 @@
-import { AppStore, getAppStore, Group, setAppStore, subscribeAppStore } from '../store/useAppStore'
+import { store } from '../store/store'
+import { Group, setAppStore } from '../store/useAppStore'
 import { height, moveAtoms, width } from './init'
-
-let store: AppStore = getAppStore()
-
-subscribeAppStore((state) => {
-	store = state
-})
 
 export function calc(): void {
 	for (const groupA of store.groups) {
@@ -44,7 +39,7 @@ function rule(groupA: Group, groupB: Group): void {
 				}
 				const d: number = Math.sqrt(dx * dx + dy * dy)
 
-				if (d >= 0 && d <= 160) {
+				if (d >= store.interactiveRange[0] && d <= store.interactiveRange[1]) {
 					// if (Math.random() < 0.01) continue
 					const force: number = groupA.forces[groupB.index]
 					const f: number = force / d

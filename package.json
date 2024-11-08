@@ -1,7 +1,7 @@
 {
 	"name": "particle-life-2d",
 	"private": true,
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"type": "module",
 	"description": "Life is made up of elementary particles.",
 	"homepage": "https://particle-life-2d.vercel.app",
@@ -13,8 +13,9 @@
 		"3d",
 		"life",
 		"physics",
+		"force",
 		"cells",
-		"microorganisms",
+		"microbe",
 		"primordial-soup"
 	],
 	"author": {

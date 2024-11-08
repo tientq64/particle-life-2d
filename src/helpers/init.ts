@@ -1,22 +1,9 @@
-import {
-	AppStore,
-	Atom,
-	getAppStore,
-	Group,
-	setAppStore,
-	subscribeAppStore,
-	useAppStore
-} from '../store/useAppStore'
+import { store } from '../store/store'
+import { Atom, Group, setAppStore, useAppStore } from '../store/useAppStore'
 import { random } from '../utils/random'
 import { getDistancesBetweenTwoAtom } from './getDistancesBetweenTwoAtom'
 import { getRandomXYInRadius } from './getRandomXYInRadius'
 import { loop } from './loop'
-
-let store: AppStore = getAppStore()
-
-subscribeAppStore((state) => {
-	store = state
-})
 
 export const PI_2: number = Math.PI * 2
 export const width: number = 1920
