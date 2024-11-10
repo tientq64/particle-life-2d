@@ -1,3 +1,4 @@
+import { Typography } from 'antd'
 import clsx from 'clsx'
 import { useEffect, useRef } from 'react'
 import { init } from '../helpers/init'
@@ -26,9 +27,9 @@ export function App() {
 	}, [])
 
 	return (
-		<div
+		<Typography
 			className={clsx(
-				'flex justify-center items-center h-screen bg-slate-800',
+				'flex justify-center items-center h-screen overflow-hidden bg-slate-800',
 				isMouseMove && 'select-none cursor-grabbing'
 			)}
 		>
@@ -43,8 +44,8 @@ export function App() {
 			</canvas>
 
 			{isShowPanel && (
-				<div className="flex flex-col absolute inset-0 pointer-events-none">
-					<div className="flex-1 flex justify-between items-start">
+				<div className="flex flex-col absolute inset-0 overflow-hidden pointer-events-none">
+					<div className="flex-1 flex justify-between items-start overflow-hidden">
 						<LeftSideBar />
 						<RightSideBar />
 					</div>
@@ -52,6 +53,6 @@ export function App() {
 					<Footer />
 				</div>
 			)}
-		</div>
+		</Typography>
 	)
 }

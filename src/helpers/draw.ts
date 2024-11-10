@@ -6,8 +6,8 @@ const hexagon: Path2D = new Path2D(
 )
 const diamond: Path2D = new Path2D('M0-5 5 0 0 5-5 0Z')
 
-export function draw(): void {
-	if (store.isPaused && !store.isMouseMove) return
+export function draw(forceDraw?: boolean): void {
+	if (!forceDraw && store.isPaused && !store.isMouseMove) return
 
 	const ctx: CanvasRenderingContext2D | null = store.ctx
 	if (ctx === null) return

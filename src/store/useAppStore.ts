@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { Snapshot } from '../helpers/snapshot'
 import { AtomShapeName } from '../models/atomShapes'
 
 export interface Atom {
@@ -40,22 +41,25 @@ export interface AppStore extends Configs {
 	cameraMoveDown: boolean
 	cameraVelocityX: number
 	cameraVelocityY: number
+	snapshot: Snapshot | undefined
 }
 
-export const defaultConfigs: Configs = {
-	skipRuleWhenSameGroup: false,
-	gridSnapping: false,
-	gridSnapSize: 5,
-	atomShapeName: 'ring',
-	atomRadius: 4,
-	canvasFillMode: 'contain',
-	interactiveRange: [0, 160]
+export function getDefaultConfigs(): Configs {
+	return {
+		skipRuleWhenSameGroup: false,
+		gridSnapping: false,
+		gridSnapSize: 5,
+		atomShapeName: 'circle',
+		atomRadius: 4,
+		canvasFillMode: 'contain',
+		interactiveRange: [0, 160]
+	}
 }
 
 export const useAppStore = create(
 	persist<AppStore, [], [], Partial<AppStore>>(
 		() => ({
-			...defaultConfigs,
+			...getDefaultConfigs(),
 			groups: [],
 			ctx: null,
 			canvas: null,
@@ -68,7 +72,8 @@ export const useAppStore = create(
 			cameraMoveUp: false,
 			cameraMoveDown: false,
 			cameraVelocityX: 0,
-			cameraVelocityY: 0
+			cameraVelocityY: 0,
+			snapshot: undefined
 		}),
 		{
 			name: 'tientq64/particle-life-2d',

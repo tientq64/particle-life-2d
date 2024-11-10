@@ -1,16 +1,19 @@
 import { useEventListener, useFullscreen } from 'ahooks'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types'
+import { calc } from '../helpers/calc'
 import {
 	height,
 	moveAtoms,
 	randomForces,
 	randomPositionAtoms,
+	resetVelocityAtoms,
 	separatePositionAtoms,
 	width
 } from '../helpers/init'
 import { AtomShape, atomShapes } from '../models/atomShapes'
-import { defaultConfigs, setAppStore, useAppStore } from '../store/useAppStore'
+import { getDefaultConfigs, setAppStore, useAppStore } from '../store/useAppStore'
+import { draw } from '../helpers/draw'
 
 export function useEvents(): void {
 	const canvas = useAppStore((state) => state.canvas)
@@ -50,7 +53,7 @@ export function useEvents(): void {
 	)
 
 	useHotkeys(
-		'e,r,t,f,space,1,2,3,4,5,`,w,a,s,d',
+		'e,r,g,t,f,x,space,1,2,3,4,5,`,w,a,s,d',
 		(event: KeyboardEvent, hotkeyEvent: HotkeysEvent) => {
 			if (event.repeat) return
 
@@ -61,12 +64,21 @@ export function useEvents(): void {
 
 				case 'r':
 					randomForces()
+					randomPositionAtoms()
 					separatePositionAtoms()
+					resetVelocityAtoms()
+					break
+
+				case 'g':
+					randomForces()
+					separatePositionAtoms()
+					resetVelocityAtoms()
 					break
 
 				case 't':
 					randomPositionAtoms()
 					separatePositionAtoms()
+					resetVelocityAtoms()
 					break
 
 				case 'f':
@@ -75,6 +87,12 @@ export function useEvents(): void {
 
 				case 'space':
 					setAppStore((prev) => ({ isPaused: !prev.isPaused }))
+					break
+
+				case 'x':
+					setAppStore({ isPaused: true })
+					calc(true)
+					draw(true)
 					break
 
 				case '1':
@@ -90,7 +108,7 @@ export function useEvents(): void {
 					break
 
 				case '`':
-					setAppStore((prev) => ({ ...prev, ...defaultConfigs }), true)
+					setAppStore(getDefaultConfigs())
 					break
 
 				case 'w':

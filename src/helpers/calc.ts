@@ -2,24 +2,24 @@ import { store } from '../store/store'
 import { Group, setAppStore } from '../store/useAppStore'
 import { height, moveAtoms, width } from './init'
 
-export function calc(): void {
+export function calc(forceCalc?: boolean): void {
 	for (const groupA of store.groups) {
 		for (const groupB of store.groups) {
 			if (store.skipRuleWhenSameGroup) {
 				if (groupA === groupB) continue
 			}
-			rule(groupA, groupB)
+			rule(groupA, groupB, forceCalc)
 		}
 	}
 	camera()
 }
 
-function rule(groupA: Group, groupB: Group): void {
+function rule(groupA: Group, groupB: Group, forceCalc?: boolean): void {
 	for (const atomA of groupA.atoms) {
 		let fx: number = 0
 		let fy: number = 0
 
-		if (!store.isPaused) {
+		if (forceCalc || !store.isPaused) {
 			for (const atomB of groupB.atoms) {
 				if (atomA === atomB) continue
 

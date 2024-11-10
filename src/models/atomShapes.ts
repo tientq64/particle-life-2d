@@ -1,4 +1,5 @@
 export type AtomShapeName = 'circle' | 'ring' | 'hexagon' | 'square' | 'diamond'
+
 export type AtomShape = {
 	value: AtomShapeName
 	label: string

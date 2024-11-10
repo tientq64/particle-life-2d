@@ -98,9 +98,20 @@ export function randomPositionAtoms(): void {
 		const groupX: number = random(0, width - 1)
 		const groupY: number = random(0, height - 1)
 		for (const atom of group.atoms) {
-			const [x, y] = getRandomXYInRadius(groupX, groupY, store.atomRadius * 4)
+			const [x, y] = getRandomXYInRadius(groupX, groupY, 160)
 			atom.x = x
 			atom.y = y
+		}
+	}
+	setAppStore({ groups })
+}
+
+export function resetVelocityAtoms(): void {
+	const groups: Group[] = structuredClone(store.groups)
+	for (const group of groups) {
+		for (const atom of group.atoms) {
+			atom.vx = 0
+			atom.vy = 0
 		}
 	}
 	setAppStore({ groups })
@@ -115,7 +126,7 @@ export function separatePositionAtoms(): void {
 					if (atomA === atomB) continue
 					const [d] = getDistancesBetweenTwoAtom(atomA, atomB)
 					if (d < store.atomRadius * 2) {
-						const [x, y] = getRandomXYInRadius(atomB.x, atomB.y, store.atomRadius * 4)
+						const [x, y] = getRandomXYInRadius(atomB.x, atomB.y, 16)
 						atomB.x = x
 						atomB.y = y
 					}
@@ -128,8 +139,6 @@ export function separatePositionAtoms(): void {
 
 /**
  * Di chuyển các hạt.
- *
- * Đột biến state để tránh vấn đề hiệu suất, mặc dù chưa thấy vấn đề gì.
  */
 export function moveAtoms(movementX: number, movementY: number): void {
 	for (const group of store.groups) {
