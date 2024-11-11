@@ -10,6 +10,7 @@ import { errorAndMessage } from './errorAndMessage'
 export interface Snapshot {
 	id: string
 	appVersion: string
+	createAt: string
 	groups: SnapshotGroup[]
 	skipRuleWhenSameGroup: boolean
 	gridSnapping: boolean
@@ -41,10 +42,12 @@ export interface SharedSnapshot {
 }
 
 export function makeSnapshot(): Snapshot {
-	const id: string = [dayjs().format('YYYYMMDD-HHmmss-SSS'), nanoid(7)].join('-')
+	const time: Dayjs = dayjs()
+	const id: string = [time.format('YYYYMMDD-HHmmss-SSS'), nanoid(7)].join('-')
 	const snapshot: Snapshot = {
 		id,
 		appVersion: pkg.version,
+		createAt: time.format('YYYY-MM-DDTHH:mm:ss.SSS'),
 		groups: store.groups.map((group) => ({
 			color: group.color,
 			forces: group.forces.map((force) => force * 10),

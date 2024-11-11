@@ -1,5 +1,5 @@
 import { useRequest } from 'ahooks'
-import { Button, Space, Table } from 'antd'
+import { Button, Space, Table, Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import { ReactNode, useCallback, useEffect } from 'react'
 import {
@@ -24,23 +24,28 @@ export function SnapshotSection(): ReactNode {
 	const groups = useAppStore((state) => state.groups)
 	const snapshot = useAppStore((state) => state.snapshot)
 
-	const sharedSnapshots = useRequest(async (): Promise<SharedSnapshot[]> => {
-		const discussions: any[] = await (
-			await fetch('https://api.github.com/repos/tientq64/particle-life-2d/discussions')
-		).json()
-		const sharedSnapshots: SharedSnapshot[] = []
-		for (const discussion of discussions) {
-			const sharedSnapshot: SharedSnapshot = {
-				title: discussion.title,
-				content: discussion.body,
-				userName: discussion.user.login,
-				updateAt: dayjs(discussion.updated_at),
-				discussionUrl: discussion.html_url
+	const sharedSnapshots = useRequest(
+		async (): Promise<SharedSnapshot[]> => {
+			const discussions: any[] = await (
+				await fetch('https://api.github.com/repos/tientq64/particle-life-2d/discussions')
+			).json()
+			const sharedSnapshots: SharedSnapshot[] = []
+			for (const discussion of discussions) {
+				const sharedSnapshot: SharedSnapshot = {
+					title: discussion.title,
+					content: discussion.body,
+					userName: discussion.user.login,
+					updateAt: dayjs(discussion.updated_at),
+					discussionUrl: discussion.html_url
+				}
+				sharedSnapshots.push(sharedSnapshot)
 			}
-			sharedSnapshots.push(sharedSnapshot)
+			return sharedSnapshots
+		},
+		{
+			cacheKey: 'sharedSnapshots'
 		}
-		return sharedSnapshots
-	})
+	)
 
 	const handleCopySnapshotToClipboard = useCallback(() => {
 		copySnapshotToClipboard()
@@ -93,9 +98,11 @@ export function SnapshotSection(): ReactNode {
 						<Space.Compact>
 							<Button onClick={handleCopySnapshotToClipboard}>Sao chép</Button>
 							<Button onClick={handleDownloadSnapshot}>Tải xuống</Button>
-							<Button onClick={handleShareSnapshotViaGitHub}>
-								Chia sẻ lên GitHub...
-							</Button>
+							<Tooltip title='Nhấn sao chép trước tiên, sau đó dán vào phần "Add a body" trên trang chia sẻ'>
+								<Button onClick={handleShareSnapshotViaGitHub}>
+									Chia sẻ lên GitHub...
+								</Button>
+							</Tooltip>
 						</Space.Compact>
 
 						<Space.Compact>
@@ -108,33 +115,37 @@ export function SnapshotSection(): ReactNode {
 						</Space.Compact>
 
 						{snapshot !== undefined && sharedSnapshots.data !== undefined && (
-							<Table
-								rowClassName="cursor-pointer"
-								size="small"
-								showHeader={false}
-								onRow={(snapshot) => ({
-									onClick: () => handleSharedSnapshotClick(snapshot)
-								})}
-								pagination={{
-									className: '!mt-2 !mb-0',
-									defaultPageSize: 4
-								}}
-								columns={[
-									{
-										dataIndex: 'title',
-										className: '!py-1'
-									},
-									{
-										className: '!py-1 text-right',
-										render: (_, snapshot) => (
-											<Link href={snapshot.discussionUrl} stopPropagation>
-												Phản hồi
-											</Link>
-										)
-									}
-								]}
-								dataSource={sharedSnapshots.data.toReversed()}
-							/>
+							<>
+								<div>Các bản ghi được chia sẻ trên GitHub</div>
+
+								<Table
+									rowClassName="cursor-pointer"
+									size="small"
+									showHeader={false}
+									onRow={(snapshot) => ({
+										onClick: () => handleSharedSnapshotClick(snapshot)
+									})}
+									pagination={{
+										className: '!mt-2 !mb-0',
+										defaultPageSize: 4
+									}}
+									columns={[
+										{
+											dataIndex: 'title',
+											className: '!py-1'
+										},
+										{
+											className: '!py-1 text-right',
+											render: (_, snapshot) => (
+												<Link href={snapshot.discussionUrl} stopPropagation>
+													Phản hồi
+												</Link>
+											)
+										}
+									]}
+									dataSource={sharedSnapshots.data.toReversed()}
+								/>
+							</>
 						)}
 					</div>
 				)}
