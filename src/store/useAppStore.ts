@@ -34,6 +34,7 @@ export interface AppStore extends Configs {
 	isMouseDown: boolean
 	isMouseMove: boolean
 	isShowPanel: boolean
+	showPanelWhenHovered: boolean
 	isPaused: boolean
 	cameraMoveLeft: boolean
 	cameraMoveRight: boolean
@@ -66,6 +67,7 @@ export const useAppStore = create(
 			isMouseDown: false,
 			isMouseMove: false,
 			isShowPanel: true,
+			showPanelWhenHovered: false,
 			isPaused: false,
 			cameraMoveLeft: false,
 			cameraMoveRight: false,
@@ -85,12 +87,11 @@ export const useAppStore = create(
 				atomRadius: state.atomRadius,
 				canvasFillMode: state.canvasFillMode,
 				interactiveRange: state.interactiveRange,
-				isShowPanel: state.isShowPanel
+				isShowPanel: state.isShowPanel,
+				showPanelWhenHovered: state.showPanelWhenHovered
 			})
 		}
 	)
 )
 
 export const setAppStore = useAppStore.setState
-export const getAppStore = useAppStore.getState
-export const subscribeAppStore = useAppStore.subscribe

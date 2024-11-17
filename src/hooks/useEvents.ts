@@ -18,6 +18,7 @@ import { draw } from '../helpers/draw'
 export function useEvents(): void {
 	const canvas = useAppStore((state) => state.canvas)
 	const isMouseDown = useAppStore((state) => state.isMouseDown)
+	const showPanelWhenHovered = useAppStore((state) => state.showPanelWhenHovered)
 
 	const [, { toggleFullscreen }] = useFullscreen(document.documentElement)
 
@@ -34,11 +35,17 @@ export function useEvents(): void {
 	useEventListener(
 		'pointermove',
 		(event: PointerEvent) => {
-			if (!isMouseDown) return
-			setAppStore({ isMouseMove: true })
-			const ratioX: number = width / canvas!.clientWidth
-			const ratioY: number = height / canvas!.clientHeight
-			moveAtoms(event.movementX * ratioX, event.movementY * ratioY)
+			if (isMouseDown) {
+				setAppStore({ isMouseMove: true })
+				const ratioX: number = width / canvas!.clientWidth
+				const ratioY: number = height / canvas!.clientHeight
+				moveAtoms(event.movementX * ratioX, event.movementY * ratioY)
+			} else {
+				const mouseX: number = event.clientX
+				if (showPanelWhenHovered) {
+					setAppStore({ isShowPanel: mouseX <= 384 || mouseX >= innerWidth - 384 })
+				}
+			}
 		},
 		{ target: canvas }
 	)

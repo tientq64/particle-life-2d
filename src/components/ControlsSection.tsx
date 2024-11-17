@@ -14,6 +14,7 @@ export function ControlsSection(): ReactNode {
 	const atomRadius = useAppStore((state) => state.atomRadius)
 	const canvasFillMode = useAppStore((state) => state.canvasFillMode)
 	const interactiveRange = useAppStore((state) => state.interactiveRange)
+	const showPanelWhenHovered = useAppStore((state) => state.showPanelWhenHovered)
 	const groups = useAppStore((state) => state.groups)
 
 	const [configsForm] = useForm<Configs>()
@@ -26,7 +27,8 @@ export function ControlsSection(): ReactNode {
 			atomShapeName,
 			atomRadius,
 			canvasFillMode,
-			interactiveRange
+			interactiveRange,
+			showPanelWhenHovered
 		}),
 		[
 			skipRuleWhenSameGroup,
@@ -35,7 +37,8 @@ export function ControlsSection(): ReactNode {
 			atomShapeName,
 			atomRadius,
 			canvasFillMode,
-			interactiveRange
+			interactiveRange,
+			showPanelWhenHovered
 		]
 	)
 
@@ -124,6 +127,13 @@ export function ControlsSection(): ReactNode {
 					</FormItem>
 
 					<FormItem name="gridSnapping" label="Đồ họa dạng lưới">
+						<Switch />
+					</FormItem>
+
+					<FormItem
+						name="showPanelWhenHovered"
+						label="Tự động ẩn/hiện giao diện khi di chuột (nên bật)"
+					>
 						<Switch />
 					</FormItem>
 

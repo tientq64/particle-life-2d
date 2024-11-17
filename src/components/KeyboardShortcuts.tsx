@@ -7,7 +7,7 @@ export function KeyboardShortcuts(): ReactNode {
 	const keyboardShortcutItems = useRef<DescriptionsItemProps[]>(
 		[
 			{
-				label: 'Bật/tắt giao diện',
+				label: 'Ẩn/Hiện giao diện',
 				children: <Kbd>E</Kbd>
 			},
 			{

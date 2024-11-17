@@ -1,27 +1,19 @@
 import { useRequest } from 'ahooks'
 import { Button, Space, Table, Tooltip } from 'antd'
 import dayjs from 'dayjs'
-import { ReactNode, useCallback, useEffect } from 'react'
+import { ReactNode, useCallback } from 'react'
 import {
 	copySnapshotToClipboard,
 	downloadSnapshot,
 	importSnapshotFromClipboard,
 	importSnapshotFromFile,
 	importSnapshotFromJson,
-	SharedSnapshot,
-	updateSnapshot
+	SharedSnapshot
 } from '../helpers/snapshot'
 import { useAppStore } from '../store/useAppStore'
 import { Link } from './Link'
 
 export function SnapshotSection(): ReactNode {
-	const skipRuleWhenSameGroup = useAppStore((state) => state.skipRuleWhenSameGroup)
-	const gridSnapping = useAppStore((state) => state.gridSnapping)
-	const gridSnapSize = useAppStore((state) => state.gridSnapSize)
-	const atomShapeName = useAppStore((state) => state.atomShapeName)
-	const atomRadius = useAppStore((state) => state.atomRadius)
-	const interactiveRange = useAppStore((state) => state.interactiveRange)
-	const groups = useAppStore((state) => state.groups)
 	const snapshot = useAppStore((state) => state.snapshot)
 
 	const sharedSnapshots = useRequest(
@@ -73,18 +65,6 @@ export function SnapshotSection(): ReactNode {
 	const handleSharedSnapshotClick = useCallback(async (snapshot: SharedSnapshot) => {
 		importSnapshotFromJson(snapshot.content)
 	}, [])
-
-	useEffect(() => {
-		updateSnapshot()
-	}, [
-		groups,
-		skipRuleWhenSameGroup,
-		gridSnapping,
-		gridSnapSize,
-		atomShapeName,
-		atomRadius,
-		interactiveRange
-	])
 
 	return (
 		<div className="flex flex-col gap-2 min-h-0">

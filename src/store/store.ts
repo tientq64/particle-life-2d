@@ -1,7 +1,7 @@
-import { AppStore, getAppStore, subscribeAppStore } from './useAppStore'
+import { AppStore, useAppStore } from './useAppStore'
 
-export let store: AppStore = getAppStore()
+export let store: AppStore = useAppStore.getState()
 
-subscribeAppStore((state) => {
+useAppStore.subscribe((state) => {
 	store = state
 })

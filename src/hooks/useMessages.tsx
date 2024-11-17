@@ -5,7 +5,7 @@ import { Kbd } from '../components/Kbd'
 export function useMessages(): void {
 	useEffect(() => {
 		;(async () => {
-			await message.info('Vào toàn màn hình để xem được đẹp nhất', 7)
+			await message.info('Vào toàn màn hình để trải nghiệm được tốt nhất', 7)
 			await message.info(
 				'Thế giới không phải lúc nào cũng ổn định, vì vậy hãy kiên nhẫn và chờ những điều thú vị xảy ra',
 				10
