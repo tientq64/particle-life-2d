@@ -2,13 +2,13 @@ import { Typography } from 'antd'
 import clsx from 'clsx'
 import { useEffect, useRef } from 'react'
 import { init } from '../helpers/init'
+import { useEffects } from '../hooks/useEffects'
 import { useEvents } from '../hooks/useEvents'
 import { useMessages } from '../hooks/useMessages'
 import { setAppStore, useAppStore } from '../store/useAppStore'
 import { Footer } from './Footer'
 import { LeftSideBar } from './LeftSideBar'
 import { RightSideBar } from './RightSideBar'
-import { useEffects } from '../hooks/useEffects'
 
 export function App() {
 	const canvasFillMode = useAppStore((state) => state.canvasFillMode)
@@ -44,8 +44,6 @@ export function App() {
 			>
 				This browser does not support the canvas element.
 			</canvas>
-
-			<div className="absolute top-0 left-0">{Date.now()}</div>
 
 			{isShowPanel && (
 				<div className="flex flex-col absolute inset-0 overflow-hidden pointer-events-none">
